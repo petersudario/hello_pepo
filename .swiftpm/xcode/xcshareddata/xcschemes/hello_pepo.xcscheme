@@ -85,15 +85,6 @@
             ReferencedContainer = "container:">
          </BuildableReference>
       </BuildableProductRunnable>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "hello_pepo"
-            BuildableName = "hello_pepo"
-            BlueprintName = "hello_pepo"
-            ReferencedContainer = "container:">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
