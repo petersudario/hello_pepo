@@ -35,7 +35,7 @@ struct ContentView: View {
                 soundFileName: models[idx].soundFileName
             )
             .edgesIgnoringSafeArea(.all)
-
+            
             VStack {
                 Text("\(models[idx].displayName) – \(models[idx].reference)")
                     .font(.title2).bold()

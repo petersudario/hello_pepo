@@ -110,7 +110,7 @@ public class ModelPreviewView: SCNView {
 
     private func makeCameraNode() -> SCNNode {
         let camera = SCNCamera()
-        camera.fieldOfView = 120
+        camera.fieldOfView = 60
         let node = SCNNode()
         node.camera   = camera
         node.position = SCNVector3(0, 0, targetRadius * 3)

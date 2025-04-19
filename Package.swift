@@ -20,7 +20,7 @@ let package = Package(
             teamIdentifier: "2QB643XL72",
             displayVersion: "1.0",
             bundleVersion: "1",
-            appIcon: .placeholder(icon: .palette),
+            appIcon: .placeholder(icon: .cloud),
             accentColor: .presetColor(.brown),
             supportedDeviceFamilies: [
                 .pad,
@@ -40,9 +40,10 @@ let package = Package(
             path: ".",
             resources: [
                 .process("3DModels"),
-		.process("Sounds")
+                .process("Sounds"),
+                .process("Images")
             ]
-        ),
+        )
     ],
-    swiftLanguageVersions: [.v6]
+    swiftLanguageVersions: [.version("6")]
 )
