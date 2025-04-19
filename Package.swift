@@ -8,19 +8,19 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "hello_pepo",
+    name: "Meet Pepo",
     platforms: [
         .iOS("17.0")
     ],
     products: [
         .iOSApplication(
-            name: "hello_pepo",
+            name: "Meet Pepo",
             targets: ["AppModule"],
             bundleIdentifier: "appledeveloperacademy.hello-pepo",
             teamIdentifier: "2QB643XL72",
             displayVersion: "1.0",
             bundleVersion: "1",
-            appIcon: .placeholder(icon: .cloud),
+            appIcon: .asset("AppIcon"),
             accentColor: .presetColor(.brown),
             supportedDeviceFamilies: [
                 .pad,
@@ -43,8 +43,7 @@ let package = Package(
             path: ".",
             resources: [
                 .process("3DModels"),
-                .process("Sounds"),
-                .process("Images")
+                .process("Sounds")
             ]
         )
     ],
