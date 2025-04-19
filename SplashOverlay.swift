@@ -1,10 +1,3 @@
-//
-//  SplashOverlay.swift
-//  hello_pepo
-//
-//  Created by Pedro Henrique Sudario da Silva on 19/04/25.
-//
-
 import SwiftUI
 import SpriteKit
 
@@ -23,22 +16,26 @@ public struct SplashOverlay: View {
                     .foregroundStyle(
                         LinearGradient(
                             gradient: Gradient(colors: [Color.purple, .white]),
-                            startPoint: .top,
-                            endPoint: .bottom
+                            startPoint: .leading,
+                            endPoint: .trailing
                         )
                     )
                     .opacity(0.8)
+                    .rotationEffect(.degrees(-10))
+
 
                 Text("PEPO")
                     .font(.system(size: 80, weight: .ultraLight))
                     .foregroundStyle(
                         LinearGradient(
                             gradient: Gradient(colors: [Color.purple, .white]),
-                            startPoint: .top,
-                            endPoint: .bottom
+                            startPoint: .leading,
+                            endPoint: .trailing
                         )
                     )
                     .opacity(0.8)
+                    .rotationEffect(.degrees(-10))
+
 
                 Spacer().frame(height: 20)
 
@@ -48,13 +45,15 @@ public struct SplashOverlay: View {
                         .foregroundStyle(
                             LinearGradient(
                                 gradient: Gradient(colors: [Color.purple, .white]),
-                                startPoint: .top,
-                                endPoint: .bottom
+                                startPoint: .leading,
+                                endPoint: .trailing
                             )
                         )
                         .padding(.horizontal, 40)
                         .padding(.vertical, 12)
                         .cornerRadius(8)
+                        .rotationEffect(.degrees(-10))
+
                 }
 
                 Spacer()
