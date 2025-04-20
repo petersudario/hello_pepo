@@ -8,6 +8,7 @@
 import SwiftUI
 import ARKit
 import SceneKit
+import AVFoundation
 
 struct ARImageTrackingViewRepresentable: UIViewControllerRepresentable {
     let modelName: String
@@ -19,11 +20,6 @@ struct ARImageTrackingViewRepresentable: UIViewControllerRepresentable {
 
     func updateUIViewController(_ uiViewController: ARImageTrackingViewController, context: Context) {}
 }
-
-import UIKit
-import ARKit
-import SceneKit
-import AVFoundation
 
 class ARImageTrackingViewController: UIViewController, ARSCNViewDelegate {
     let sceneView = ARSCNView()
