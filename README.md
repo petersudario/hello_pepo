@@ -13,13 +13,13 @@ Os assets disponiveis no `Assets.xcassets` e na pasta `Images` foram criados por
 - **Pré-visualização 3D** com rotação, zoom e interação sonora via SceneKit (`ModelPreviewView`) e integração SwiftUI (`ModelPreviewRepresentable`).
 - **Lista de modelos** navegável na interface SwiftUI, mostrando nome, referência e permitindo alternar entre itens.
 - **Detalhamento em modal sheet**, exibindo a descrição completa de cada item (`ContentView`).
-- **Visualização em AR**: detecção de imagem marker e sobreposição de botões para som e fechamento, usando ARKit (`ARImageTrackingViewController`).
+- **Visualização em AR**: detecção de imagem marker e sobreposição de botões para som, usando ARKit (`ARImageTrackingViewController`).
 - **Splash screen animada** com sprites físicos simulando queda e pop de imagens, antes de acessar o conteúdo principal (`PhysicsScene`, `SplashOverlay`).
 - **Arquitetura moderna** baseada em SwiftUI, ARKit, SceneKit, SpriteKit e gerenciada via Swift Package Manager (SPM).
 
 ## Requisitos
 
-- Xcode 15 ou superior
+- Xcode 16 ou superior
 - iOS 17.0 ou superior
 - Swift 6.0
 - Dispositivo com câmera (para recursos de AR)
