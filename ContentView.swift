@@ -22,6 +22,8 @@ extension View {
 struct ContentView: View {
     @State private var idx = 0
     @State private var showDetail = false
+    @State private var showAR = false
+
     private var sheetHeight: CGFloat { UIScreen.main.bounds.height * 0.4 }
     
     private let models: [ModelInfo] = [
@@ -113,6 +115,27 @@ struct ContentView: View {
                     )
                 }
                 
+                Button {
+                    showAR = true
+                } label: {
+                    HStack(spacing: 0) {
+                        Text("see in ")
+                        Text("AR").foregroundColor(.purple)
+                    }
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 32)
+                    .padding(.vertical, 12)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 24)
+                            .stroke(Color.white, lineWidth: 2)
+                    )
+                }
+                .sheet(isPresented: $showAR) {
+                    ARImageTrackingViewRepresentable(modelName: models[idx].fileName, modelSound: models[idx].soundFileName)
+                        .edgesIgnoringSafeArea(.all)
+                }
+
                 Spacer()
                 
                 HStack {

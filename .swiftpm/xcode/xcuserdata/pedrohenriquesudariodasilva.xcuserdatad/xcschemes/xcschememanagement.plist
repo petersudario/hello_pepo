@@ -17,6 +17,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>Meet Pepo</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>hello_pepo</key>
 		<dict>
 			<key>primary</key>

@@ -43,7 +43,8 @@ let package = Package(
             path: ".",
             resources: [
                 .process("3DModels"),
-                .process("Sounds")
+                .process("Sounds"),
+		.process("Images"),
             ]
         )
     ],
