@@ -1,6 +1,13 @@
+//
+//  ContentView.swift
+//  Meet Pepo
+//
+//  Created by Pedro Henrique Sudario da Silva on 21/04/25.
+//
+
+
 import SwiftUI
 import ARKit
-
 
 struct ContentView: View {
     @State private var idx = 0
@@ -39,118 +46,119 @@ struct ContentView: View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            VStack() {
-                TabView(selection: $selection) {
-                    ForEach(models.indices, id: \.self) { idx in
-                        ZStack{
-                            VStack {
-                                Spacer()
-                                
-                                Text(models[idx].displayName.uppercased())
-                                    .font(.system(size: 48, weight: .regular))
-                                    .foregroundStyle(
-                                        LinearGradient(
-                                            gradient: Gradient(colors: [Color.white, Color.purple]),
-                                            startPoint: .leading,
-                                            endPoint: .trailing
-                                        )
+            TabView(selection: $selection) {
+                ForEach(models.indices, id: \.self) { index in
+                    ZStack {
+                        VStack {
+                            Spacer()
+
+                            Text(models[index].displayName.uppercased())
+                                .font(.system(size: 48, weight: .regular))
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color.white, Color.purple]),
+                                        startPoint: .leading,
+                                        endPoint: .trailing
                                     )
-                                Text("from \(models[idx].reference)")
-                                    .font(.title3).italic()
-                                    .foregroundColor(.purple)
-                                
-                                ModelPreviewRepresentable(
-                                    modelName: models[idx].fileName,
-                                    soundFileName: models[idx].soundFileName
                                 )
-                                .frame(width: 300, height: 300)                                
-                                
-                                Button {
-                                    withAnimation { showDetail = true }
-                                } label: {
-                                    HStack(spacing: 0) {
-                                        Text("see ")
-                                        Text("more").foregroundColor(.purple)
-                                    }
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .padding(.horizontal, 32)
-                                    .padding(.vertical, 12)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 24)
-                                            .stroke(Color.white, lineWidth: 2)
-                                    )
+                            Text("from \(models[index].reference)")
+                                .font(.title3).italic()
+                                .foregroundColor(.purple)
+
+                            ModelPreviewRepresentable(
+                                modelName: models[index].fileName,
+                                soundFileName: models[index].soundFileName
+                            )
+                            .frame(width: 300, height: 300)
+
+                            Button {
+                                withAnimation { showDetail = true }
+                            } label: {
+                                HStack(spacing: 0) {
+                                    Text("see ")
+                                    Text("more").foregroundColor(.purple)
                                 }
-                                
-                                Button {
-                                    showAR = true
-                                } label: {
-                                    HStack(spacing: 0) {
-                                        Text("see in ")
-                                        Text("AR").foregroundColor(.purple)
-                                    }
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .padding(.horizontal, 32)
-                                    .padding(.vertical, 12)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 24)
-                                            .stroke(Color.white, lineWidth: 2)
-                                    )
-                                }
-                                .sheet(isPresented: $showAR) {
-                                    ARImageTrackingViewRepresentable(modelName: models[idx].fileName, modelSound: models[idx].soundFileName)
-                                        .edgesIgnoringSafeArea(.all)
-                                }
-                                Spacer()
-                            }
-                            if showDetail {
-                                Color.black.opacity(0.5)
-                                    .ignoresSafeArea()
-                                    .onTapGesture { withAnimation { showDetail = false } }
-                                
-                                GeometryReader { geo in
-                                    let topGap = geo.size.height / 2
-                                    let sheetHeight = geo.size.height - topGap
-                                    
-                                    VStack {
-                                        Spacer()
-                                        VStack(spacing: 0) {
-                                            Capsule()
-                                                .frame(width: 40, height: 5)
-                                                .foregroundColor(.gray.opacity(0.7))
-                                                .padding(.top, 8)
-                                            
-                                            Text("\(models[idx].displayName) – \(models[idx].reference)")
-                                                .font(.headline)
-                                                .foregroundColor(.white)
-                                                .padding(.top, 8)
-                                            
-                                            ScrollView {
-                                                Text(models[idx].description)
-                                                    .font(.body)
-                                                    .foregroundColor(.white)
-                                                    .padding()
-                                            }
-                                        }
-                                        .frame(maxWidth: .infinity)
-                                        .frame(height: sheetHeight)
-                                        .background(Color(white: 0.1))
-                                        .cornerRadius(16, corners: [.topLeft, .topRight])
-                                        .transition(.move(edge: .bottom))
-                                        .animation(.spring(), value: showDetail)
-                                    }
-                                }
-                                .ignoresSafeArea(edges: .bottom)
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 32)
+                                .padding(.vertical, 12)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 24)
+                                        .stroke(Color.white, lineWidth: 2)
+                                )
                             }
 
+                            Button {
+                                showAR = true
+                            } label: {
+                                HStack(spacing: 0) {
+                                    Text("see in ")
+                                    Text("AR").foregroundColor(.purple)
+                                }
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 32)
+                                .padding(.vertical, 12)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 24)
+                                        .stroke(Color.white, lineWidth: 2)
+                                )
+                            }
+                            Spacer()
                         }
-                       
-                    }
-                }
-                                
-            }.tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
 
+                        if showDetail {
+                            Color.black.opacity(0.5)
+                                .ignoresSafeArea()
+                                .onTapGesture { withAnimation { showDetail = false } }
+
+                            GeometryReader { geo in
+                                let topGap = geo.size.height / 2
+                                let sheetH = geo.size.height - topGap
+
+                                VStack {
+                                    Spacer()
+                                    VStack(spacing: 0) {
+                                        Capsule()
+                                            .frame(width: 40, height: 5)
+                                            .foregroundColor(.gray.opacity(0.7))
+                                            .padding(.top, 8)
+
+                                        Text("\(models[index].displayName) – \(models[index].reference)")
+                                            .font(.headline)
+                                            .foregroundColor(.white)
+                                            .padding(.top, 8)
+
+                                        ScrollView {
+                                            Text(models[index].description)
+                                                .font(.body)
+                                                .foregroundColor(.white)
+                                                .padding()
+                                        }
+                                    }
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: sheetH)
+                                    .background(Color(white: 0.1))
+                                    .cornerRadius(16, corners: [.topLeft, .topRight])
+                                    .transition(.move(edge: .bottom))
+                                    .animation(.spring(), value: showDetail)
+                                }
+                            }
+                            .ignoresSafeArea(edges: .bottom)
+                        }
+                    }
+                    .tag(index)
+                }
+            }
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+        }
+        .sheet(isPresented: $showAR) {
+            let model = models[selection]
+            ARImageTrackingViewRepresentable(
+                modelName: model.fileName,
+                modelSound: model.soundFileName
+            )
+            .edgesIgnoringSafeArea(.all)
         }
     }
 }

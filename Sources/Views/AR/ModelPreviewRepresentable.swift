@@ -1,5 +1,12 @@
+//
+//  ModelPreviewRepresentable.swift
+//  Meet Pepo
+//
+//  Created by Pedro Henrique Sudario da Silva on 21/04/25.
+//
+
 import SwiftUI
-import SceneKit
+
 
 public struct ModelPreviewRepresentable: UIViewRepresentable {
     public let modelName: String
@@ -25,3 +32,5 @@ public struct ModelPreviewRepresentable: UIViewRepresentable {
         uiView.rotationSpeed = rotationSpeed
     }
 }
+
+

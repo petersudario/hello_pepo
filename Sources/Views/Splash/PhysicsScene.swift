@@ -1,9 +1,16 @@
+//
+//  PhysicsScene.swift
+//  Meet Pepo
+//
+//  Created by Pedro Henrique Sudario da Silva on 21/04/25.
+//
+
 import SwiftUI
-import SpriteKit
+import ARKit
 
 class PhysicsScene: SKScene {
     private let totalDrops = 50
-    private let spawnInterval: TimeInterval = 5.0 / 50.0 
+    private let spawnInterval: TimeInterval = 5.0 / 50.0
 
     override init(size: CGSize) {
         super.init(size: size)

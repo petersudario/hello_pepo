@@ -42,9 +42,7 @@ let package = Package(
             name: "AppModule",
             path: ".",
             resources: [
-                .process("3DModels"),
-                .process("Sounds"),
-		.process("Images"),
+                .process("Sources/Materials/"),
             ]
         )
     ],

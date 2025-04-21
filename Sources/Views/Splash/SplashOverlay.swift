@@ -1,5 +1,11 @@
+//
+//  SplashOverlay.swift
+//  Meet Pepo
+//
+//  Created by Pedro Henrique Sudario da Silva on 21/04/25.
+//
+
 import SwiftUI
-import SpriteKit
 
 public struct SplashOverlay: View {
     let startAction: () -> Void
@@ -59,4 +65,3 @@ public struct SplashOverlay: View {
         }
     }
 }
-

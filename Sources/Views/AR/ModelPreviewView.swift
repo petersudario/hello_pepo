@@ -1,5 +1,12 @@
+//
+//  ModelPreviewView.swift
+//  Meet Pepo
+//
+//  Created by Pedro Henrique Sudario da Silva on 21/04/25.
+//
+
+
 import SceneKit
-import UIKit
 
 public class ModelPreviewView: SCNView {
     private(set) var modelNode: SCNNode?
