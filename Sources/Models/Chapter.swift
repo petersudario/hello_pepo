@@ -7,8 +7,15 @@
 
 import Foundation
 
-struct Chapter: Identifiable {
-    let id = UUID()
-    let title: String
-    let sections: [Section]
+struct Chapter {
+  let title: String
+  let reference: String
+  let modelName: String
+  let soundFileName: String
+  var contents: [ChapterContent]
+}
+
+enum ChapterContent {
+  case text(text: String, audioFileName: String)
+  case modelPreview
 }

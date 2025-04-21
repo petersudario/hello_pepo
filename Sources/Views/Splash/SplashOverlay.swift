@@ -45,7 +45,7 @@ public struct SplashOverlay: View {
                 Spacer().frame(height: 20)
 
                 Button(action: startAction) {
-                    Text("start")
+                    Text("Begin")
                         .font(.system(size: 30, weight: .light))
                         .foregroundStyle(
                             LinearGradient(
