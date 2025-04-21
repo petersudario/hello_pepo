@@ -10,12 +10,8 @@ Os assets disponiveis no `Assets.xcassets` e na pasta `Images` foram criados por
 
 ## Funcionalidades
 
-- **Pré-visualização 3D** com rotação, zoom e interação sonora via SceneKit (`ModelPreviewView`) e integração SwiftUI (`ModelPreviewRepresentable`).
-- **Lista de modelos** navegável na interface SwiftUI, mostrando nome, referência e permitindo alternar entre itens.
-- **Detalhamento em modal sheet**, exibindo a descrição completa de cada item (`ContentView`).
-- **Visualização em AR**: detecção de imagem marker e sobreposição de botões para som, usando ARKit (`ARImageTrackingViewController`).
-- **Splash screen animada** com sprites físicos simulando queda e pop de imagens, antes de acessar o conteúdo principal (`PhysicsScene`, `SplashOverlay`).
-- **Arquitetura moderna** baseada em SwiftUI, ARKit, SceneKit, SpriteKit e gerenciada via Swift Package Manager (SPM).
+- Visualização e interação com modelos 3D
+- Realidade aumentada
 
 ## Requisitos
 
@@ -37,7 +33,7 @@ Os assets disponiveis no `Assets.xcassets` e na pasta `Images` foram criados por
    ```
 3. Selecione um destino compatível (iPhone/iPad com iOS 17+) e execute.
 
-4. Imprima uma folha com a imagem na pasta `Images`, e aponte a câmera do iPhone para a folha.
+4. Imprima uma folha com a imagem na pasta `Materials/Images`, e aponte a câmera do iPhone para a folha.
 
 Atenção: A realidade aumentada funciona melhor em dispositivos reais.
 
