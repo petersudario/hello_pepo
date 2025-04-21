@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 public struct ModelPreviewRepresentable: UIViewRepresentable {
     public let modelName: String
     public let soundFileName: String

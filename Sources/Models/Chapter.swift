@@ -5,8 +5,6 @@
 //  Created by Pedro Henrique Sudario da Silva on 21/04/25.
 //
 
-import Foundation
-
 struct Chapter {
   let title: String
   let reference: String
