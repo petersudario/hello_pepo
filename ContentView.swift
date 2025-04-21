@@ -55,9 +55,8 @@ struct ContentView: View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            Color.black.ignoresSafeArea()
             
-            VStack(spacing: 16) {
+            VStack() {
                 Spacer()
                 
                 Text(models[idx].displayName.uppercased())

@@ -6,10 +6,9 @@ public struct SplashOverlay: View {
 
     public var body: some View {
         ZStack {
-            Color.black.opacity(0.6)
+            Color.black.opacity(0)
 
             VStack {
-                Spacer()
 
                 Text("MEET")
                     .font(.system(size: 60, weight: .ultraLight))
@@ -56,7 +55,6 @@ public struct SplashOverlay: View {
 
                 }
 
-                Spacer()
             }
         }
     }
