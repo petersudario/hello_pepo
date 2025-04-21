@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import ARKit
+import SpriteKit
 
 class PhysicsScene: SKScene {
     private let totalDrops = 50
