@@ -29,7 +29,7 @@ public class ModelPreviewView: SCNView {
     private func configureView() {
         autoenablesDefaultLighting = true
         allowsCameraControl      = false
-        backgroundColor          = .black
+        backgroundColor          = .clear
 
         let pan   = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
         let pinch = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
