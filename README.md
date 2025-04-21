@@ -1,5 +1,11 @@
 # Meet Pepo
 
+Special thanks to Munhoz, Fonsi, Alves, Felps and Flora who helped me
+
+Special thanks to Yerik (I spied some parts of your WWDC AR game hehehe)
+
+Special thanks to all my mentors, with the AlbumCover.swiftpm (helped me with the icon pop and physics)
+
 ## Descrição
 
 Meet Pepo é um aplicativo iOS que permite explorar uma coleção personalizada de modelos 3D relacionados aos meus gostos e interesses, como personagens de jogos, animes e objetos colecionáveis. O app oferece visualização interativa dos modelos, descrição detalhada, reprodução de sons e experiência em Realidade Aumentada (AR).
