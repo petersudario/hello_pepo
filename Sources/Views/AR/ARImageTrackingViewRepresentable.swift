@@ -120,16 +120,6 @@ class ARImageTrackingViewController: UIViewController, ARSCNViewDelegate {
         soundButton.addTarget(self, action: #selector(playSound), for: .touchUpInside)
         view.addSubview(soundButton)
 
-        let closeButton = UIButton(type: .system)
-        closeButton.setTitle("✖️", for: .normal)
-        closeButton.titleLabel?.font = UIFont.systemFont(ofSize: 28)
-        closeButton.tintColor = .white
-        closeButton.backgroundColor = UIColor.black.withAlphaComponent(0.4)
-        closeButton.layer.cornerRadius = 30
-        closeButton.frame = CGRect(x: 20, y: view.safeAreaInsets.top + 20, width: 60, height: 60)
-        closeButton.autoresizingMask = [.flexibleRightMargin, .flexibleBottomMargin]
-        closeButton.addTarget(self, action: #selector(dismissSelf), for: .touchUpInside)
-        view.addSubview(closeButton)
     }
 
     @objc private func playSound() {
