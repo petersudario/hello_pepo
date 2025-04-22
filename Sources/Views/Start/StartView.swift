@@ -15,39 +15,44 @@ struct StartView: View {
     @State private var vm = ChaptersViewModel()
 
     var body: some View {
-        ZStack {
-            Rectangle().fill(Color.black)
-            
-            ChaptersCarouselView(vm: vm)
-
-            if showSplash {
+        Vaporwave {
+            ZStack {
                 Rectangle().fill(Color.black)
-            }
-
-            SpriteView(
-                scene: scene,
-                options: [.allowsTransparency]
-            )
-            .ignoresSafeArea()
-            .allowsHitTesting(false)
-
-            if showSplash {
-                SplashOverlay(startAction: {
-                    guard !started else { return }
-                    started = true
-                    scene.startFalling()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                        withAnimation { showSplash = false }
-                    }
-                })
+                
+                
+                ChaptersCarouselView(vm: vm)
+                
+                if showSplash {
+                    Rectangle().fill(Color.black)
+                }
+                
+                SpriteView(
+                    scene: scene,
+                    options: [.allowsTransparency]
+                )
                 .ignoresSafeArea()
+                .allowsHitTesting(false)
+                
+                if showSplash {
+                    SplashOverlay(startAction: {
+                        guard !started else { return }
+                        started = true
+                        scene.startFalling()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                            withAnimation { showSplash = false }
+                        }
+                    })
+                    .ignoresSafeArea()
+                }
+            }
+            .onChange(of: showSplash) { newValue in
+                if !newValue {
+                    scene.backgroundColor = .clear
+                    scene.popAllSprites()
+                }
             }
         }
-        .onChange(of: showSplash) { newValue in
-            if !newValue {
-                scene.backgroundColor = .clear
-                scene.popAllSprites()
-            }
-        }
+
     }
 }
+
