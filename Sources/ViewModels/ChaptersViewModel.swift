@@ -13,6 +13,13 @@ final class ChaptersViewModel: ObservableObject {
     @Published var selectedChapterIndex = 0
     @Published var selectedSectionIndex = 0
 
+    @Published var titleUnlockedIndex: Int
+    @Published var memoryUnlockedIndex: Int
+
+    private let defaults = UserDefaults.standard
+    private let kTitleKey = "titleUnlockedIndex"
+    private let kMemoryKey = "memoryUnlockedIndex"
+
     init() {
         chapters = [
             Chapter(
@@ -55,20 +62,45 @@ final class ChaptersViewModel: ObservableObject {
                     .text(text: "Texto da seção 2.1", audioFileName: "audio2_1.mp3"),
                     .modelPreview
                 ]
-            )        ]
+            )
+        ]
+
+        // Registrar default para título
+        defaults.register(defaults: [kTitleKey: 0])
+        titleUnlockedIndex = defaults.integer(forKey: kTitleKey)
+
+        // Restaurar progresso de memória ou definir como -1
+        if defaults.object(forKey: kMemoryKey) != nil {
+            memoryUnlockedIndex = defaults.integer(forKey: kMemoryKey)
+        } else {
+            memoryUnlockedIndex = -1
+        }
     }
 
     func nextSection() {
-            let total = chapters[selectedChapterIndex].contents.count
-            if selectedSectionIndex + 1 < total {
-                selectedSectionIndex += 1
-            }
+        let total = chapters[selectedChapterIndex].contents.count
+        if selectedSectionIndex + 1 < total {
+            selectedSectionIndex += 1
+        }
+    }
+
+    func nextChapter() {
+        if selectedChapterIndex + 1 < chapters.count {
+            selectedChapterIndex += 1
+            selectedSectionIndex = 0
+        }
+    }
+
+    func collectMemory() {
+        memoryUnlockedIndex = max(memoryUnlockedIndex, selectedChapterIndex)
+        defaults.set(memoryUnlockedIndex, forKey: kMemoryKey)
+
+        let next = selectedChapterIndex + 1
+        if next < chapters.count {
+            titleUnlockedIndex = max(titleUnlockedIndex, next)
+            defaults.set(titleUnlockedIndex, forKey: kTitleKey)
         }
 
-        func nextChapter() {
-            if selectedChapterIndex + 1 < chapters.count {
-                selectedChapterIndex += 1
-                selectedSectionIndex = 0
-            }
-        }
+        nextChapter()
+    }
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+
 struct ChaptersCarouselView: View {
     @ObservedObject var vm: ChaptersViewModel
     @State private var showDetail = false
@@ -16,31 +17,48 @@ struct ChaptersCarouselView: View {
             TabView(selection: $vm.selectedChapterIndex) {
                 ForEach(vm.chapters.indices, id: \.self) { idx in
                     let chapter = vm.chapters[idx]
+                    let isTitleUnlocked = idx <= vm.titleUnlockedIndex
+                    let isMemoryUnlocked = idx <= vm.memoryUnlockedIndex
+
                     VStack {
                         Spacer()
-                        Text(chapter.title.uppercased())
-                            .font(.system(size: 48, weight: .regular))
-                            .foregroundStyle(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [Color.white, Color.purple]),
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
+
+                        Text(
+                            isTitleUnlocked
+                                ? chapter.title.uppercased()
+                                : String(repeating: "?", count: chapter.title.count)
+                        )
+                        .font(.system(size: 48, weight: .regular))
+                        .foregroundStyle(
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color.white, Color.purple]),
+                                startPoint: .leading,
+                                endPoint: .trailing
                             )
-                            .padding(.bottom, 8)
-                        
+                        )
+                        .padding(.bottom, 8)
+
                         Text("\(chapter.reference)")
                             .font(.title3)
                             .italic()
                             .foregroundColor(.purple)
                             .padding(.bottom, 20)
-                        ModelPreviewRepresentable(
-                            modelName: chapter.modelName,
-                            soundFileName: chapter.soundFileName
-                        )
-                        .frame(width: 300, height: 300)
+
+                        ZStack {
+                            ModelPreviewRepresentable(
+                                modelName: chapter.modelName,
+                                soundFileName: chapter.soundFileName
+                            )
+                            .frame(width: 300, height: 300)
+
+                            if !isMemoryUnlocked {
+                                Color.black.opacity(0.6)
+                                    .frame(width: 300, height: 300)
+                                    .cornerRadius(12)
+                            }
+                        }
                         .padding(.bottom, 20)
-                        
+
                         Spacer()
 
                         Button {
@@ -50,23 +68,25 @@ struct ChaptersCarouselView: View {
                                 Text("Hear a ")
                                 Text("story").foregroundColor(.purple)
                             }
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 32)
-                            .padding(.vertical, 12)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 24)
-                                    .stroke(Color.white, lineWidth: 2)
-                            )
                         }
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 32)
+                        .padding(.vertical, 12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 24)
+                                .stroke(Color.white, lineWidth: 2)
+                        )
                         .padding(.bottom, 10)
 
-                        Button {
-                            showAR = true
-                        } label: {
-                            HStack(spacing: 0) {
-                                Text("View ")
-                                Text("memory").foregroundColor(.purple)
+                        if isMemoryUnlocked {
+                            Button {
+                                showAR = true
+                            } label: {
+                                HStack(spacing: 0) {
+                                    Text("View ")
+                                    Text("memory").foregroundColor(.purple)
+                                }
                             }
                             .font(.headline)
                             .foregroundColor(.white)
@@ -84,7 +104,6 @@ struct ChaptersCarouselView: View {
                 }
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
-
             .fullScreenCover(isPresented: $showDetail) {
                 ChapterDetailView(vm: vm).environmentObject(AudioManager.shared)
             }
