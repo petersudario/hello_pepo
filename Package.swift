@@ -8,13 +8,13 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "Meet Pepo",
+    name: "Pepo MemoBox",
     platforms: [
         .iOS("17.0")
     ],
     products: [
         .iOSApplication(
-            name: "Meet Pepo",
+            name: "Pepo MemoBox",
             targets: ["AppModule"],
             bundleIdentifier: "appledeveloperacademy.hello-pepo",
             teamIdentifier: "2QB643XL72",
@@ -42,8 +42,7 @@ let package = Package(
             name: "AppModule",
             path: ".",
             resources: [
-                .process("Sources/Materials/"),
-		
+                .process("Sources/Materials")
             ]
         )
     ],
