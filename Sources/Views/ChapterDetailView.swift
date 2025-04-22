@@ -83,9 +83,22 @@ struct ChapterDetailView: View {
                                                         height: pageGeo.size.height * 0.7
                                                     )
                                                     .cornerRadius(12)
+                                                    
+                                                    HStack(spacing: 40) {
+                                                        Button("Collect memory›") {
+                                                            vm.nextChapter()
+                                                        }
+                                                    }
+                                                    .font(.headline)
+                                                    .foregroundColor(.white)
+                                                    .padding()
+                                                    .background(
+                                                        RoundedRectangle(cornerRadius: 12)
+                                                            .stroke(Color.white, lineWidth: 2)
+                                                    )
                                                 }
-                                                
                                                 Spacer()
+                                                
                                             }
                                             .padding(.horizontal, hPad)
                                             .offset(y: -pageGeo.size.height * 0.50)
@@ -118,23 +131,26 @@ struct ChapterDetailView: View {
                 }
                 .onChange(of: selectedSectionIndex) { _ in
                     playCurrentSectionAudio()
-                }
-                .overlay(alignment: .topLeading) {
-                    Button { dismiss() } label: {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: geo.size.width * 0.06, weight: .bold))
-                            .foregroundStyle(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [Color.white, Color.purple]),
-                                    startPoint: .top,
-                                    endPoint: .bottom
+                }.overlay(alignment: .topLeading) {
+                    if !showCutscene {
+                        Button { dismiss() } label: {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: geo.size.width * 0.06, weight: .bold))
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color.white, Color.purple]),
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
                                 )
-                            )
+                        }
+                        .padding(.leading, geo.size.width * 0.125)
+                        .padding(.top, geo.size.width * 0.3)
                     }
                     
                 }
+                
             }
-           
         }.ignoresSafeArea()
     }
 

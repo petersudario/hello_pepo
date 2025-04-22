@@ -65,8 +65,8 @@ struct ChaptersCarouselView: View {
                             showAR = true
                         } label: {
                             HStack(spacing: 0) {
-                                Text("Inspect ")
-                                Text("object").foregroundColor(.purple)
+                                Text("View ")
+                                Text("memory").foregroundColor(.purple)
                             }
                             .font(.headline)
                             .foregroundColor(.white)

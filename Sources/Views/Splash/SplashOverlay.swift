@@ -20,7 +20,7 @@ public struct SplashOverlay: View {
             VStack(spacing: 30) {
                 Spacer(minLength: 30)
                 Group {
-                    Text("MEET")
+                    Text("Pepo's")
                         .font(.system(size: 80, weight: .ultraLight))
                         .foregroundStyle(
                             LinearGradient(
@@ -32,7 +32,7 @@ public struct SplashOverlay: View {
                         .opacity(0.8)
                         .rotationEffect(.degrees(-10))
 
-                    Text("PEPO")
+                    Text("MemoBox")
                         .font(.system(size: 80, weight: .ultraLight))
                         .foregroundStyle(
                             LinearGradient(
