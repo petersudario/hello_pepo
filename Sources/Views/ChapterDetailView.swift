@@ -37,14 +37,12 @@ struct ChapterDetailView: View {
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                     } else {
                         let contents = vm.chapters[vm.selectedChapterIndex].contents
-                        
                         ZStack(alignment: .center) {
                             TabView(selection: $selectedSectionIndex) {
                                 ForEach(contents.indices, id: \.self) { idx in
                                     GeometryReader { pageGeo in
                                         let hPad = pageGeo.size.width * 0.05
                                         let textW = pageGeo.size.height - hPad * 2
-                                        
                                         ZStack {
                                             Color.black.ignoresSafeArea()
                                             VStack(alignment: .leading, spacing: 8) {
@@ -59,7 +57,6 @@ struct ChapterDetailView: View {
                                                                 endPoint: .trailing
                                                             )
                                                         )
-                                                    
                                                     TypewriterText(fullText: text,
                                                                    isActive: selectedSectionIndex == idx)
                                                     .font(.custom("SF Pro", size: pageGeo.size.width * 0.045))
@@ -72,7 +69,6 @@ struct ChapterDetailView: View {
                                                     )
                                                     .fixedSize(horizontal: false, vertical: true)
                                                 }
-                                                
                                                 if case .modelPreview = contents[idx] {
                                                     ModelPreviewRepresentable(
                                                         modelName: vm.chapters[vm.selectedChapterIndex].modelName,
@@ -83,10 +79,10 @@ struct ChapterDetailView: View {
                                                         height: pageGeo.size.height * 0.7
                                                     )
                                                     .cornerRadius(12)
-                                                    
                                                     HStack(spacing: 40) {
                                                         Button("Collect memory›") {
-                                                            vm.nextChapter()
+                                                            vm.collectMemory()
+                                                            dismiss()
                                                         }
                                                     }
                                                     .font(.headline)
@@ -98,7 +94,6 @@ struct ChapterDetailView: View {
                                                     )
                                                 }
                                                 Spacer()
-                                                
                                             }
                                             .padding(.horizontal, hPad)
                                             .offset(y: -pageGeo.size.height * 0.50)
@@ -113,7 +108,6 @@ struct ChapterDetailView: View {
                             .offset(x: geo.size.width)
                             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                             .ignoresSafeArea()
-                            
                             VerticalProgressSlider(
                                 total: contents.count,
                                 current: selectedSectionIndex
@@ -131,7 +125,8 @@ struct ChapterDetailView: View {
                 }
                 .onChange(of: selectedSectionIndex) { _ in
                     playCurrentSectionAudio()
-                }.overlay(alignment: .topLeading) {
+                }
+                .overlay(alignment: .topLeading) {
                     if !showCutscene {
                         Button { dismiss() } label: {
                             Image(systemName: "chevron.left")
@@ -147,24 +142,21 @@ struct ChapterDetailView: View {
                         .padding(.leading, geo.size.width * 0.125)
                         .padding(.top, geo.size.width * 0.3)
                     }
-                    
                 }
-                
             }
-        }.ignoresSafeArea()
+        }
+        .ignoresSafeArea()
     }
 
     private func playCurrentSectionAudio() {
-        let contents = vm.chapters[vm.selectedSectionIndex].contents
+        let contents = vm.chapters[vm.selectedChapterIndex].contents
         guard selectedSectionIndex < contents.count,
               case let .text(_, audioFileWithExt) = contents[selectedSectionIndex] else {
             return
         }
-
         let parts = audioFileWithExt.split(separator: ".", maxSplits: 1).map(String.init)
         let name = parts.first ?? audioFileWithExt
         let ext = parts.count > 1 ? parts[1] : "mp3"
-
         audioManager.playSFX(named: name, ofType: ext)
     }
 }
