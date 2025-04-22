@@ -5,9 +5,10 @@
 //  Created by Pedro Henrique Sudario da Silva on 21/04/25.
 //
 
-
 import SceneKit
+import SwiftUI
 
+@MainActor
 public class ModelPreviewView: SCNView {
     private(set) var modelNode: SCNNode?
     public private(set) var currentModelName: String?
@@ -99,10 +100,10 @@ public class ModelPreviewView: SCNView {
     }
 
     private func playSound() {
-        guard let source = SCNAudioSource(fileNamed: soundFileName) else { return }
-        source.load()
-        let player = SCNAudioPlayer(source: source)
-        modelNode?.addAudioPlayer(player)
+        let components = soundFileName.split(separator: ".", omittingEmptySubsequences: false)
+        let name = components.first.map(String.init) ?? soundFileName
+        let ext = components.count > 1 ? String(components.last!) : "mp3"
+        AudioManager.shared.playSFX(named: name, ofType: ext)
     }
 
     private static func makeLightNode() -> SCNNode {

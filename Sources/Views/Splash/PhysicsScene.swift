@@ -8,6 +8,7 @@
 import SwiftUI
 import SpriteKit
 
+
 class PhysicsScene: SKScene {
     private let totalDrops = 50
     private let spawnInterval: TimeInterval = 5.0 / 50.0
@@ -46,8 +47,8 @@ class PhysicsScene: SKScene {
         sprite.physicsBody = body
 
         addChild(sprite)
-        run(SKAction.playSoundFileNamed("pop_sound.mp3", waitForCompletion: false))
 
+        AudioManager.shared.playSFX(named: "pop_sound", ofType: "mp3")
     }
 
     func popAllSprites() {
@@ -58,9 +59,10 @@ class PhysicsScene: SKScene {
 
         for case let sprite as SKSpriteNode in children {
             let delay = SKAction.wait(forDuration: TimeInterval.random(in: 0...0.5))
-            let seq = SKAction.sequence([delay, pop, .removeFromParent()])
+            let seq   = SKAction.sequence([delay, pop, .removeFromParent()])
             sprite.run(seq)
-            run(SKAction.playSoundFileNamed("pop_sound.mp3", waitForCompletion: false))
+
+            AudioManager.shared.playSFX(named: "pop_sound", ofType: "mp3")
         }
     }
 }

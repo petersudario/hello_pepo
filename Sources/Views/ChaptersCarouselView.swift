@@ -86,7 +86,7 @@ struct ChaptersCarouselView: View {
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
 
             .fullScreenCover(isPresented: $showDetail) {
-                ChapterDetailView(vm: vm)
+                ChapterDetailView(vm: vm).environmentObject(AudioManager.shared)
             }
         }
         .sheet(isPresented: $showAR) {
