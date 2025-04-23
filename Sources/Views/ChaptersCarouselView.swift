@@ -26,7 +26,7 @@ struct ChaptersCarouselView: View {
                         Text(
                             isTitleUnlocked
                                 ? chapter.title.uppercased()
-                                : String(repeating: "?", count: chapter.title.count)
+                                : "?"
                         )
                         .font(.system(size: 48, weight: .regular))
                         .foregroundStyle(
@@ -45,16 +45,21 @@ struct ChaptersCarouselView: View {
                             .padding(.bottom, 20)
 
                         ZStack {
-                            ModelPreviewRepresentable(
-                                modelName: chapter.modelName,
-                                soundFileName: chapter.soundFileName
-                            )
-                            .frame(width: 300, height: 300)
+
 
                             if !isMemoryUnlocked {
-                                Color.black.opacity(0.6)
-                                    .frame(width: 300, height: 300)
-                                    .cornerRadius(12)
+                                ModelPreviewRepresentable(
+                                    modelName: "question_mark",
+                                    soundFileName: "pop_sound.mp3"
+                                )
+                                .frame(width: 300, height: 300)
+                            }
+                            else {
+                                ModelPreviewRepresentable(
+                                    modelName: chapter.modelName,
+                                    soundFileName: chapter.soundFileName
+                                )
+                                .frame(width: 300, height: 300)
                             }
                         }
                         .padding(.bottom, 20)
