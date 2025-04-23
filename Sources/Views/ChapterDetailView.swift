@@ -38,6 +38,8 @@ struct ChapterDetailView: View {
                     } else {
                         let contents = vm.chapters[vm.selectedChapterIndex].contents
                         ZStack(alignment: .center) {
+                            Rectangle().fill(Color.black)
+
                             TabView(selection: $selectedSectionIndex) {
                                 ForEach(contents.indices, id: \.self) { idx in
                                     GeometryReader { pageGeo in
