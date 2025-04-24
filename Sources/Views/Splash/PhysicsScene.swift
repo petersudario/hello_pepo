@@ -57,12 +57,13 @@ class PhysicsScene: SKScene {
             SKAction.fadeOut(withDuration: 0.2)
         ])
 
+        AudioManager.shared.playSFX(named: "pop_sound", ofType: "mp3")
+
         for case let sprite as SKSpriteNode in children {
             let delay = SKAction.wait(forDuration: TimeInterval.random(in: 0...0.5))
             let seq   = SKAction.sequence([delay, pop, .removeFromParent()])
             sprite.run(seq)
 
-            AudioManager.shared.playSFX(named: "pop_sound", ofType: "mp3")
         }
     }
 }
