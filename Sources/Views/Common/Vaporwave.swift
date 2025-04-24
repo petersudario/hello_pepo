@@ -153,6 +153,6 @@ struct Vaporwave<Content: View>: View {
         ZStack {
             content
             VaporwaveOverlay()
-        }
+        }.background(.black)
     }
 }
