@@ -63,7 +63,7 @@ final class ChaptersViewModel: ObservableObject {
                 .text(text: "Eu tinha medo, mas queria muito jogar.", audioFileName: "audio2_4.m4a"),
                 .text(text: "Em vez disso eu fiquei vendo minha irmã jogar por um tempo, até ela me deixar jogar.", audioFileName: "audio2_5.m4a"),
                 .text(text: "Passei horas e horas jogando, e se tornou o jogo mais memorável da minha vida.", audioFileName: "audio2_6.m4a"),
-                .text(text: "E eu descobri que não tinha medo de jogos assim", audioFileName: "audio2_7.m4a")
+                .text(text: "E eu descobri que não tinha medo de jogos assim", audioFileName: "audio2_7.m4a"),
                 .text(text: "É uma história curta, mas tem um valor especial pra mim.", audioFileName: "audio2_8.m4a"),
                 .text(text: "Porque eu jogo a mesma coisa, durante 17 anos, pelo menos uma vez por ano.", audioFileName: "audio2_9.m4a"),
                 .modelPreview
@@ -251,7 +251,7 @@ final class ChaptersViewModel: ObservableObject {
                     .text(text: "Era um mangá extremamente esquisito para maiores de 18 anos.", audioFileName: "audio17_2.m4a"),
                     .text(text: "Não vou entrar em detalhes sobre, mas era um mangá cruel, assim como o jogo.", audioFileName: "audio17_3.m4a"),
                     .text(text: "O protagonista era um espadachim com uma espada de mais de 100KG, cheio de cicatrizes...", audioFileName: "audio17_4.m4a"),
-                    .text(text: "..que pareciam doer como fogo.", audioFileName: "audio17_4_1.m4a")
+                    .text(text: "..que pareciam doer como fogo.", audioFileName: "audio17_4_1.m4a"),
                     .text(text: "E usava uma armadura amaldiçoada com uma viseira vermelha.", audioFileName: "audio17_5.m4a"),
                     .text(text: "Eu comecei a me aprofundar, ler o mangá, os detalhes da franquia..", audioFileName: "audio17_6.m4a"),
                     .text(text: "E muita coisa fez sentido para mim (exceto as partes esquisitas da história).", audioFileName: "audio17_7.m4a"),
