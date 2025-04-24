@@ -268,7 +268,7 @@ final class ChaptersViewModel: ObservableObject {
             Chapter(title: "Warmth", reference: "- When you feel like you again", modelName: "malenia", soundFileName: "malenia.mp3", contents: [
                 .text(text: "Proveniente de Dark Souls e também Berserk. ELDEN RING.", audioFileName: "audio18_1.m4a"),
                 .text(text: "Queria muito homenagear a maior obra de arte que já joguei na vida.", audioFileName: "audio18_2.m4a"),
-                .text(text: "Pra mim, foi o ápice da história de Hidetaka Miyazaki e maior exemplo de pensamento filosófico que eu sigo!", audioFileName: "audio18_3.m4a")
+                .text(text: "Pra mim, foi o ápice da história de Hidetaka Miyazaki e maior exemplo de pensamento filosófico que eu sigo!", audioFileName: "audio18_3.m4a"),
                 .modelPreview
             ]),
             Chapter(title: "Sour & Energy", reference: "- A W-O-N-D-E-R-F-U-L drink.", modelName: "monster", soundFileName: "bloxcola_sound.mp3", contents: [
