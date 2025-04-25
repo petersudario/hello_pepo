@@ -23,7 +23,12 @@ final class ChaptersViewModel: ObservableObject {
     init() {
         chapters = [
             Chapter(title: "Blue", reference: "- Is that the right color?", modelName: "all_star", soundFileName: "", contents: [
-                .text(text: "", audioFileName: "")
+                .text(text: "Eu tinha mais ou menos 2 anos de idade.", audioFileName: "audio0_1.m4a"),
+                .text(text: "Sempre que eu andava no shopping com meu pai, eu olhava para todas as vitrines.", audioFileName: "audio0_2.m4a"),
+                .text(text: "Mas tinha uma vitrine em específico que eu sempre passava tempo demais.", audioFileName: "audio0_3.m4a"),
+                .text(text: "Um dia ele me deixou ir dentro dessa loja, e saí com meu primeiro sapato (até então eu só usava sandalha).", audioFileName: "audio0_4.m4a"),
+                .text(text: "Eu tinha um pé extremamente pequeno, então parecia mais uma miniatura do sapato azul.", audioFileName: "audio0_5.m4a"),
+                .modelPreview
             ]),
             Chapter(
                 title: "Black box",
@@ -94,6 +99,7 @@ final class ChaptersViewModel: ObservableObject {
                 .text(text: "Foi o primeiro jogo dedicado para videogames da Nintendo que joguei na vida..", audioFileName: "audio11_2.m4a"),
                 .text(text: "Mas em um PS1 desbloqueado!", audioFileName: "audio11_3.m4a"),
                 .text(text: "Passava as férias de meio de ano inteiras, jogando Bomberman SNES.", audioFileName: "audio11_4.m4a"),
+                .modelPreview
             ]),
             Chapter(title: "Professional Screamer", reference: "- The champion", modelName: "forza_ferrari", soundFileName: "r25.mp3", contents: [
                 .text(text: "Aqui iniciou o meu gosto por carros. Especialmente por Formula 1. 2009 para 2012", audioFileName: "audio5_1.m4a"),
