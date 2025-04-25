@@ -13,8 +13,9 @@ struct ChapterDetailView: View {
     @State private var selectedSectionIndex = 0
     @State private var showCutscene = true
     @State private var audioPlayer: AVAudioPlayer?
-    @EnvironmentObject private var audioManager: AudioManager
+    @State private var showCollectMemory = false
 
+    @EnvironmentObject private var audioManager: AudioManager
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -48,7 +49,7 @@ struct ChapterDetailView: View {
                                         ZStack {
                                             Color.black.ignoresSafeArea()
                                             VStack(alignment: .leading, spacing: 8) {
-                                                if case let .text(text, _) = contents[idx] {
+                                                if case .text(let text, _) = contents[idx] {
                                                     Text("- Pepo")
                                                         .font(.custom("SF Pro", size: pageGeo.size.width * 0.06))
                                                         .fontWeight(.ultraLight)
@@ -59,8 +60,10 @@ struct ChapterDetailView: View {
                                                                 endPoint: .trailing
                                                             )
                                                         )
-                                                    TypewriterText(fullText: text,
-                                                                   isActive: selectedSectionIndex == idx)
+                                                    TypewriterText(
+                                                        fullText: text,
+                                                        isActive: selectedSectionIndex == idx
+                                                    )
                                                     .font(.custom("SF Pro", size: pageGeo.size.width * 0.045))
                                                     .multilineTextAlignment(.leading)
                                                     .lineSpacing(pageGeo.size.width * 0.012)
@@ -71,6 +74,7 @@ struct ChapterDetailView: View {
                                                     )
                                                     .fixedSize(horizontal: false, vertical: true)
                                                 }
+
                                                 if case .modelPreview = contents[idx] {
                                                     ModelPreviewRepresentable(
                                                         modelName: vm.chapters[vm.selectedChapterIndex].modelName,
@@ -81,11 +85,10 @@ struct ChapterDetailView: View {
                                                         height: pageGeo.size.height * 0.7
                                                     )
                                                     .cornerRadius(12)
-                                                    HStack(spacing: 40) {
-                                                        Button("Collect memory›") {
-                                                            vm.collectMemory()
-                                                            dismiss()
-                                                        }
+
+                                                    Button("Collect memory›") {
+                                                        vm.collectMemory()
+                                                        showCollectMemory = true
                                                     }
                                                     .font(.headline)
                                                     .foregroundColor(.white)
@@ -95,6 +98,7 @@ struct ChapterDetailView: View {
                                                             .stroke(Color.white, lineWidth: 2)
                                                     )
                                                 }
+
                                                 Spacer()
                                             }
                                             .padding(.horizontal, hPad)
@@ -110,6 +114,7 @@ struct ChapterDetailView: View {
                             .offset(x: geo.size.width)
                             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                             .ignoresSafeArea()
+
                             VerticalProgressSlider(
                                 total: contents.count,
                                 current: selectedSectionIndex
@@ -121,7 +126,9 @@ struct ChapterDetailView: View {
                 }
                 .onAppear {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                        withAnimation(.easeInOut) { showCutscene = false }
+                        withAnimation(.easeInOut) {
+                            showCutscene = false
+                        }
                         playCurrentSectionAudio()
                     }
                 }
@@ -130,7 +137,9 @@ struct ChapterDetailView: View {
                 }
                 .overlay(alignment: .topLeading) {
                     if !showCutscene {
-                        Button { dismiss() } label: {
+                        Button {
+                            dismiss()
+                        } label: {
                             Image(systemName: "chevron.left")
                                 .font(.system(size: geo.size.width * 0.06, weight: .bold))
                                 .foregroundStyle(
@@ -148,6 +157,12 @@ struct ChapterDetailView: View {
             }
         }
         .ignoresSafeArea()
+        .fullScreenCover(
+            isPresented: $showCollectMemory,
+            onDismiss: { dismiss() }
+        ) {
+            CollectMemoryView(vm: vm)
+        }
     }
 
     private func playCurrentSectionAudio() {
