@@ -22,7 +22,7 @@ final class ChaptersViewModel: ObservableObject {
 
     init() {
         chapters = [
-            Chapter(title: "Blue", reference: "- Is that the right color?", modelName: "all_star", soundFileName: "", contents: [
+            Chapter(title: "Blue", reference: "- Is that the right color?", modelName: "all_star", soundFileName: "pop_sound.mp3", contents: [
                 .text(text: "Eu tinha mais ou menos 2 anos de idade.", audioFileName: "audio0_1.m4a"),
                 .text(text: "Sempre que eu andava no shopping com meu pai, eu olhava para todas as vitrines.", audioFileName: "audio0_2.m4a"),
                 .text(text: "Mas tinha uma vitrine em específico que eu sempre passava tempo demais.", audioFileName: "audio0_3.m4a"),
@@ -203,7 +203,7 @@ final class ChaptersViewModel: ObservableObject {
                 .modelPreview
 
             ]),
-            Chapter(title: "Dodging life", reference: "- Beating up the stress", modelName: "boxing_gloves", soundFileName: "", contents: [
+            Chapter(title: "Dodging life", reference: "- Beating up the stress", modelName: "boxing_gloves", soundFileName: "pop_sound.mp3", contents: [
                 .text(text: "Pandemia.", audioFileName: "audio14_1.m4a"),
                 .text(text: "Estresse dentro de casa, inseguranças, preocupações com o futuro.", audioFileName: "audio14_2.m4a"),
                 .text(text: "Eu precisava achar alguma válvula de escape que não fossem atividades dentro de casa.", audioFileName: "audio14_3.m4a"),
