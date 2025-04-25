@@ -354,6 +354,5 @@ final class ChaptersViewModel: ObservableObject {
             defaults.set(titleUnlockedIndex, forKey: kTitleKey)
         }
 
-        nextChapter()
     }
 }
