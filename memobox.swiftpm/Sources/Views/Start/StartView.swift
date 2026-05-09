@@ -44,8 +44,32 @@ struct StartView: View {
                     })
                     .ignoresSafeArea()
                 }
+
+                if !showSplash {
+                    GeometryReader { geo in
+                        let topInset = geo.safeAreaInsets.top + 36
+                        VStack {
+                            HStack {
+                                Spacer()
+                                Button(action: handleBackToMenu) {
+                                    Image(systemName: "house.fill")
+                                        .font(.system(size: 22, weight: .semibold))
+                                        .foregroundStyle(.white)
+                                        .padding(12)
+                                        .background(Color.black.opacity(0.45))
+                                        .clipShape(Circle())
+                                }
+                                .accessibilityLabel("Voltar ao menu inicial")
+                                .padding(.top, topInset)
+                                .padding(.trailing, max(16, geo.safeAreaInsets.trailing))
+                            }
+                            Spacer()
+                        }
+                    }
+                    .allowsHitTesting(true)
+                }
             }
-            .onChange(of: showSplash) { newValue in
+            .onChange(of: showSplash) { _, newValue in
                 if !newValue {
                     scene.backgroundColor = .clear
                     scene.popAllSprites()
@@ -53,6 +77,16 @@ struct StartView: View {
             }
         }
 
+    }
+
+    private func handleBackToMenu() {
+        vm.selectedChapterIndex = 0
+        vm.selectedSectionIndex = 0
+        scene.resetForMenu()
+        started = false
+        withAnimation {
+            showSplash = true
+        }
     }
 }
 

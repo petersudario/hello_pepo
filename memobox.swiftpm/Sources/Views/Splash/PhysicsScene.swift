@@ -66,4 +66,11 @@ class PhysicsScene: SKScene {
 
         }
     }
+
+    /// Clears spawn actions and sprites so the splash flow can run again after **Begin**.
+    func resetForMenu() {
+        removeAllActions()
+        children.forEach { $0.removeFromParent() }
+        backgroundColor = .clear
+    }
 }

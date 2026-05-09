@@ -1,0 +1,8 @@
+Implementation completed: 2026-05-09
+
+Summary:
+- ChapterDetailView: iPad (regular size class) uses HStack [VerticalProgressSlider | TabView] with safe-area padding and reserved top space for back affordance; compact path keeps rotated TabView + overlay slider; replaced fixed .position slider with layout-aligned overlay/HStack.
+- storyTypographyMetrics clamps label/body/line spacing and caps column width at 560pt.
+- Cutscene title font clamped to 28–64pt; back button icon size clamped.
+
+UITests: none (project has no XCTest targets).

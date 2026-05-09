@@ -23,8 +23,9 @@ struct ARImageTrackingViewRepresentable: UIViewControllerRepresentable {
 @MainActor
 class ARImageTrackingViewController: UIViewController, ARSCNViewDelegate {
     private let sceneView = ARSCNView()
-    private let modelName: String
-    private let modelSound: String
+    /// Read from SceneKit delegate callbacks; immutable after `init`, safe across isolation boundaries.
+    private nonisolated(unsafe) let modelName: String
+    private nonisolated(unsafe) let modelSound: String
 
     init(modelName: String, modelSound: String) {
         self.modelName = modelName
@@ -67,13 +68,10 @@ class ARImageTrackingViewController: UIViewController, ARSCNViewDelegate {
 
     nonisolated func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         guard anchor is ARImageAnchor else { return }
-        Task { @MainActor in
-            await handleImageAnchor(modelName: modelName, node: node)
-        }
+        handleImageAnchor(modelName: modelName, node: node)
     }
 
-    @MainActor
-    private func handleImageAnchor(modelName: String, node: SCNNode) {
+    nonisolated private func handleImageAnchor(modelName: String, node: SCNNode) {
         guard
             let url = Bundle.main.url(forResource: modelName, withExtension: "usdz"),
             let scene = try? SCNScene(url: url),

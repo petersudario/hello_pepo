@@ -1,0 +1,10 @@
+Implementation completed: 2026-05-09
+
+Summary:
+- ChapterDetailView: removed compact-only TabView rotation/offset + overlay slider; iPhone and iPad now share one HStack(slider | TabView) with safe-area padding so GeometryReader/ScrollView sizes match visible bounds.
+- Removed horizontalSizeClass branching and counter-rotation in storySectionPage.
+- storyTypographyMetrics: text column floor lowered to min inner width 120pt to avoid forcing oversized columns on narrow widths.
+
+UX note: section paging on phone is now horizontal swipe (standard TabView) instead of vertical swipe from the old rotated TabView.
+
+Simulator/device QA for tasks 1–3 and 8 remains manual.

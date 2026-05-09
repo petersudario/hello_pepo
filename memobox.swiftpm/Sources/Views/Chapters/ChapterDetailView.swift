@@ -6,122 +6,28 @@
 //
 
 import SwiftUI
-import AVFoundation
 
 struct ChapterDetailView: View {
     @ObservedObject var vm: ChaptersViewModel
     @State private var selectedSectionIndex = 0
     @State private var showCutscene = true
-    @State private var audioPlayer: AVAudioPlayer?
     @State private var showCollectMemory = false
 
     @EnvironmentObject private var audioManager: AudioManager
     @Environment(\.dismiss) private var dismiss
+
+    private static let sliderTrackWidth: CGFloat = 24
+    private static let sliderStorySpacing: CGFloat = 16
+    private static let cutsceneTitleFontRange: ClosedRange<CGFloat> = 28 ... 64
 
     var body: some View {
         Vaporwave {
             GeometryReader { geo in
                 ZStack(alignment: .center) {
                     if showCutscene {
-                        Color.black.ignoresSafeArea()
-                        Text(vm.chapters[vm.selectedChapterIndex].title)
-                            .font(.custom("SF Pro", size: geo.size.width * 0.07))
-                            .fontWeight(.bold)
-                            .foregroundStyle(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [Color.white, Color.purple]),
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        cutsceneLayer(geo: geo)
                     } else {
-                        let contents = vm.chapters[vm.selectedChapterIndex].contents
-                        ZStack(alignment: .center) {
-                            Rectangle().fill(Color.black)
-
-                            TabView(selection: $selectedSectionIndex) {
-                                ForEach(contents.indices, id: \.self) { idx in
-                                    GeometryReader { pageGeo in
-                                        let hPad = pageGeo.size.width * 0.05
-                                        let textW = pageGeo.size.height - hPad * 2
-                                        ZStack {
-                                            Color.black.ignoresSafeArea()
-                                            VStack(alignment: .leading, spacing: 8) {
-                                                if case .text(let text, _) = contents[idx] {
-                                                    Text("- Pepo")
-                                                        .font(.custom("SF Pro", size: pageGeo.size.width * 0.06))
-                                                        .fontWeight(.ultraLight)
-                                                        .foregroundStyle(
-                                                            LinearGradient(
-                                                                gradient: Gradient(colors: [Color.white, Color.purple]),
-                                                                startPoint: .leading,
-                                                                endPoint: .trailing
-                                                            )
-                                                        )
-                                                    TypewriterText(
-                                                        fullText: text,
-                                                        isActive: selectedSectionIndex == idx
-                                                    )
-                                                    .font(.custom("SF Pro", size: pageGeo.size.width * 0.045))
-                                                    .multilineTextAlignment(.leading)
-                                                    .lineSpacing(pageGeo.size.width * 0.012)
-                                                    .frame(
-                                                        maxWidth: textW,
-                                                        maxHeight: .infinity,
-                                                        alignment: .topLeading
-                                                    )
-                                                    .fixedSize(horizontal: false, vertical: true)
-                                                }
-
-                                                if case .modelPreview = contents[idx] {
-                                                    ModelPreviewRepresentable(
-                                                        modelName: vm.chapters[vm.selectedChapterIndex].modelName,
-                                                        soundFileName: vm.chapters[vm.selectedChapterIndex].soundFileName
-                                                    )
-                                                    .frame(
-                                                        width: pageGeo.size.height * 0.7,
-                                                        height: pageGeo.size.height * 0.7
-                                                    )
-                                                    .cornerRadius(12)
-
-                                                    Button("Collect memory›") {
-                                                        vm.collectMemory()
-                                                        showCollectMemory = true
-                                                    }
-                                                    .font(.headline)
-                                                    .foregroundColor(.white)
-                                                    .padding()
-                                                    .background(
-                                                        RoundedRectangle(cornerRadius: 12)
-                                                            .stroke(Color.white, lineWidth: 2)
-                                                    )
-                                                }
-
-                                                Spacer()
-                                            }
-                                            .padding(.horizontal, hPad)
-                                            .offset(y: -pageGeo.size.height * 0.50)
-                                        }
-                                        .rotationEffect(.degrees(-90))
-                                    }
-                                    .tag(idx)
-                                }
-                            }
-                            .frame(width: geo.size.height, height: geo.size.width)
-                            .rotationEffect(.degrees(90), anchor: .topLeading)
-                            .offset(x: geo.size.width)
-                            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                            .ignoresSafeArea()
-
-                            VerticalProgressSlider(
-                                total: contents.count,
-                                current: selectedSectionIndex
-                            )
-                            .frame(width: 24, height: geo.size.height * 0.4)
-                            .position(x: geo.size.width * 0.08, y: geo.size.height / 2)
-                        }
+                        storyLayer(geo: geo)
                     }
                 }
                 .onAppear {
@@ -132,26 +38,12 @@ struct ChapterDetailView: View {
                         playCurrentSectionAudio()
                     }
                 }
-                .onChange(of: selectedSectionIndex) { _ in
+                .onChange(of: selectedSectionIndex) { _, _ in
                     playCurrentSectionAudio()
                 }
                 .overlay(alignment: .topLeading) {
                     if !showCutscene {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: geo.size.width * 0.06, weight: .bold))
-                                .foregroundStyle(
-                                    LinearGradient(
-                                        gradient: Gradient(colors: [Color.white, Color.purple]),
-                                        startPoint: .top,
-                                        endPoint: .bottom
-                                    )
-                                )
-                        }
-                        .padding(.leading, geo.size.width * 0.125)
-                        .padding(.top, geo.size.width * 0.3)
+                        backButton(geo: geo)
                     }
                 }
             }
@@ -163,6 +55,193 @@ struct ChapterDetailView: View {
         ) {
             CollectMemoryView(vm: vm)
         }
+    }
+
+    private func cutsceneLayer(geo: GeometryProxy) -> some View {
+        let titleScale = min(geo.size.width, geo.size.height)
+        let rawTitleSize = titleScale * 0.07
+        let titleFontSize = min(
+            max(rawTitleSize, Self.cutsceneTitleFontRange.lowerBound),
+            Self.cutsceneTitleFontRange.upperBound
+        )
+        return ZStack {
+            Color.black.ignoresSafeArea()
+            Text(vm.chapters[vm.selectedChapterIndex].title)
+                .font(.custom("SF Pro", size: titleFontSize))
+                .fontWeight(.bold)
+                .foregroundStyle(
+                    LinearGradient(
+                        gradient: Gradient(colors: [Color.white, Color.purple]),
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(.horizontal, 24)
+        }
+    }
+
+    /// Single layout for iPhone and iPad: slider + `TabView` in reading coordinates (no rotation).
+    /// The previous compact-only rotate/offset stack caused clipping on modern iPhones.
+    private func storyLayer(geo: GeometryProxy) -> some View {
+        let contents = vm.chapters[vm.selectedChapterIndex].contents
+        let safe = geo.safeAreaInsets
+        let topBarReserve: CGFloat = 52
+        let availableHeight = max(
+            geo.size.height - safe.top - safe.bottom - topBarReserve,
+            120
+        )
+        let sliderHeight = min(availableHeight * 0.52, 520)
+
+        return ZStack(alignment: .center) {
+            Rectangle().fill(Color.black)
+
+            HStack(alignment: .center, spacing: Self.sliderStorySpacing) {
+                VerticalProgressSlider(
+                    total: contents.count,
+                    current: selectedSectionIndex
+                )
+                .frame(width: Self.sliderTrackWidth, height: sliderHeight)
+                .padding(.leading, max(safe.leading, 8))
+
+                storyTabView(contents: contents)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+            .padding(.trailing, safe.trailing + 12)
+            .padding(.top, safe.top + topBarReserve)
+            .padding(.bottom, max(safe.bottom, 12) + 8)
+        }
+    }
+
+    private func storyTabView(contents: [ChapterContent]) -> some View {
+        TabView(selection: $selectedSectionIndex) {
+            ForEach(contents.indices, id: \.self) { idx in
+                storySectionPage(index: idx, contents: contents)
+            }
+        }
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+    }
+
+    @ViewBuilder
+    private func storySectionPage(
+        index idx: Int,
+        contents: [ChapterContent]
+    ) -> some View {
+        GeometryReader { pageGeo in
+            let safePage = pageGeo.safeAreaInsets
+            let shortSide = min(pageGeo.size.width, pageGeo.size.height)
+            let contentWidth = pageGeo.size.width - safePage.leading - safePage.trailing
+            let metrics = Self.storyTypographyMetrics(
+                shortSide: shortSide,
+                contentWidth: max(contentWidth, 1)
+            )
+
+            ZStack {
+                Color.black.ignoresSafeArea()
+
+                ScrollView(.vertical, showsIndicators: true) {
+                    VStack(spacing: 0) {
+                        Spacer(minLength: 0)
+                        VStack(alignment: .leading, spacing: 8) {
+                            if case .text(let text, _) = contents[idx] {
+                                Text("- Pepo")
+                                    .font(.custom("SF Pro", size: metrics.labelSize))
+                                    .fontWeight(.ultraLight)
+                                    .foregroundStyle(
+                                        LinearGradient(
+                                            gradient: Gradient(colors: [Color.white, Color.purple]),
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
+
+                                TypewriterText(
+                                    fullText: text,
+                                    isActive: selectedSectionIndex == idx
+                                )
+                                .font(.custom("SF Pro", size: metrics.bodySize))
+                                .multilineTextAlignment(.leading)
+                                .lineSpacing(metrics.lineSpacing)
+                                .frame(maxWidth: metrics.textColumn, alignment: .leading)
+                                .fixedSize(horizontal: false, vertical: true)
+                            }
+
+                            if case .modelPreview = contents[idx] {
+                                let previewSide = min(shortSide * 0.72, metrics.textColumn)
+                                ModelPreviewRepresentable(
+                                    modelName: vm.chapters[vm.selectedChapterIndex].modelName,
+                                    soundFileName: vm.chapters[vm.selectedChapterIndex].soundFileName
+                                )
+                                .frame(width: previewSide, height: previewSide)
+                                .cornerRadius(12)
+                                .frame(maxWidth: .infinity)
+
+                                Button("Collect memory›") {
+                                    vm.collectMemory()
+                                    showCollectMemory = true
+                                }
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(Color.white, lineWidth: 2)
+                                )
+                            }
+                        }
+                        .frame(maxWidth: metrics.textColumn)
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal, metrics.horizontalPadding)
+                        .padding(.vertical, 24)
+                        Spacer(minLength: 0)
+                    }
+                    .frame(minHeight: pageGeo.size.height)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+        }
+    }
+
+    /// Keeps story text readable on small phones and large iPads without unbounded scaling.
+    private static func storyTypographyMetrics(shortSide: CGFloat, contentWidth: CGFloat) -> (
+        labelSize: CGFloat,
+        bodySize: CGFloat,
+        lineSpacing: CGFloat,
+        textColumn: CGFloat,
+        horizontalPadding: CGFloat
+    ) {
+        let horizontalPadding = min(max(shortSide * 0.05, 12), 28)
+        let labelSize = min(max(shortSide * 0.06, 14), 26)
+        let bodySize = min(max(shortSide * 0.045, 12), 22)
+        let lineSpacing = min(max(shortSide * 0.012, 4), 11)
+        let maxReadableColumn: CGFloat = 560
+        let innerMax = max(contentWidth - horizontalPadding * 2, 120)
+        let textColumn = min(innerMax, maxReadableColumn)
+        return (labelSize, bodySize, lineSpacing, textColumn, horizontalPadding)
+    }
+
+    private func backButton(geo: GeometryProxy) -> some View {
+        let iconSize = min(
+            max(min(geo.size.width, geo.size.height) * 0.055, 18),
+            30
+        )
+        return Button {
+            dismiss()
+        } label: {
+            Image(systemName: "chevron.left")
+                .font(.system(size: iconSize, weight: .bold))
+                .foregroundStyle(
+                    LinearGradient(
+                        gradient: Gradient(colors: [Color.white, Color.purple]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+        }
+        .padding(.leading, geo.safeAreaInsets.leading + 20)
+        .padding(.top, geo.safeAreaInsets.top + 28)
+        .accessibilityLabel("Back")
     }
 
     private func playCurrentSectionAudio() {
