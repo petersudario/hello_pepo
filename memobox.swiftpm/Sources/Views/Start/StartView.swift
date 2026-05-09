@@ -59,7 +59,7 @@ struct StartView: View {
                                         .background(Color.black.opacity(0.45))
                                         .clipShape(Circle())
                                 }
-                                .accessibilityLabel("Voltar ao menu inicial")
+                                .accessibilityLabel("Back to main menu")
                                 .padding(.top, topInset)
                                 .padding(.trailing, max(16, geo.safeAreaInsets.trailing))
                             }

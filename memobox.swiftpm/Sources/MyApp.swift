@@ -39,13 +39,13 @@ final class AudioManager: ObservableObject {
                 musicPlayer?.volume = musicVolume
                 musicPlayer?.prepareToPlay()
                 musicPlayer?.play()
-            } catch { print("Erro BGM:", error) }
+            } catch { print("BGM error:", error) }
         }
     }
     
     func playSFX(named name: String, ofType ext: String = "mp3") {
         guard let url = Bundle.main.url(forResource: name, withExtension: ext) else {
-            print("SFX não encontrado:", name)
+            print("SFX not found:", name)
             return
         }
         do {
@@ -55,7 +55,7 @@ final class AudioManager: ObservableObject {
             player.play()
             sfxPlayer = player
         } catch {
-            print("Erro SFX:", error)
+            print("SFX error:", error)
         }
     }
 }
