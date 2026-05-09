@@ -1,0 +1,6 @@
+Implementation completed: 2026-05-09
+
+- marker export uses `UIImage(named: "marker")` matching `ARReferenceImage` source
+- AdditionalInfo.plist + Package.swift `additionalInfoPlistContentFilePath` for NSPhotoLibraryAddUsageDescription
+- AR overlay: marker actions sheet (Save to Photos, Print), safe-area stack with sound control
+- Device QA (Photos permission, print sheet): manual on hardware recommended

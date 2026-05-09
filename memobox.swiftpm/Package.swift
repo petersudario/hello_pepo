@@ -34,7 +34,8 @@ let package = Package(
             ],
             capabilities: [
                 .camera(purposeString: "Scan objects")
-            ]
+            ],
+            additionalInfoPlistContentFilePath: "AdditionalInfo.plist"
         )
     ],
     targets: [
